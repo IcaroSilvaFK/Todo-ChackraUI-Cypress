@@ -3,7 +3,7 @@
 <table style="text-align:center;">
 <caption>Lista de versões das depencencias</caption>
   <thead>
-    <tr>
+    <tr style="text-align:center;">
         <th>yarn</th>
         <th>Create React App</th>
         <th>ChakraUI</th>
@@ -12,7 +12,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr style="text-align:center;">
       <td>1.22</td>
       <td>17.0</td>
       <td>1.8</td>
