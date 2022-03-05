@@ -22,9 +22,6 @@ function App() {
   const { handleAddNewTodo, todos } = useTodoContext();
 
   const methods = useForm<IPropsForm>({
-    defaultValues: {
-      newTask: "",
-    },
     resolver: yupResolver(schemaTask),
   });
 
@@ -61,14 +58,12 @@ function App() {
             </Container>
           </form>
         </FormProvider>
-        <Box p="5rem"></Box>
+      </Box>
+      <Box p="5rem">
         <ul className="containerTasks">
           {todos?.map((element) => (
             <Container key={element.id}>
-              <Checkbox
-                checked={element.isComplet ? true : false}
-                display="flex"
-              >
+              <Checkbox checked={element.isComplet ? true : false}>
                 <Text fontFamily="sans-serif" fontSize="3xl">
                   {element.newTask}
                 </Text>
