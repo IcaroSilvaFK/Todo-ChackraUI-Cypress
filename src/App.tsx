@@ -1,4 +1,11 @@
-import { Box, Button, Container, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Container,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { v4 as isUuid } from "uuid";
@@ -12,7 +19,7 @@ interface IPropsForm {
 }
 
 function App() {
-  const { handleAddNewTodo, todos, isTodo } = useTodoContext();
+  const { handleAddNewTodo, todos } = useTodoContext();
 
   const methods = useForm<IPropsForm>({
     defaultValues: {
@@ -26,6 +33,7 @@ function App() {
       newTask: data.newTask,
       id: isUuid(),
       isComplet: false,
+      date: new Date().toLocaleDateString(),
     };
     handleAddNewTodo(newTask);
     methods.reset();
@@ -53,16 +61,21 @@ function App() {
             </Container>
           </form>
         </FormProvider>
-      </Box>
-      <Box p="5rem">
+        <Box p="5rem"></Box>
         <ul className="containerTasks">
-          {isTodo
-            ? ""
-            : todos?.map((element) => (
-                <li key={element.id}>
-                  <>{element.newTask}</>
-                </li>
-              ))}
+          {todos?.map((element) => (
+            <Container key={element.id}>
+              <Checkbox
+                checked={element.isComplet ? true : false}
+                display="flex"
+              >
+                <Text fontFamily="sans-serif" fontSize="3xl">
+                  {element.newTask}
+                </Text>
+                <Text>{element.date}</Text>
+              </Checkbox>
+            </Container>
+          ))}
         </ul>
       </Box>
     </Box>

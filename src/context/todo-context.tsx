@@ -1,16 +1,16 @@
 import { FC, createContext, useState, useEffect } from "react";
-import { getStorage, setStorage } from "../utils/localStorage";
+import { addTodosLocalStorage } from "../utils";
 
 export interface ITodoProp {
   newTask: string;
   isComplet: boolean;
   id: string;
+  date: string;
 }
 
 interface ITodoContextProp {
   todos: ITodoProp[] | null;
   handleAddNewTodo: (todo: ITodoProp) => void;
-  isTodo: boolean;
 }
 
 export const TodoContext = createContext<ITodoContextProp>(
@@ -18,26 +18,34 @@ export const TodoContext = createContext<ITodoContextProp>(
 );
 
 export const TodoContextProvider: FC<{}> = ({ children }) => {
-  const [todos, setTodos] = useState<ITodoProp[] | null>(null);
-  const [isTodo, setIsTodo] = useState(true);
+  const [todos, setTodos] = useState<ITodoProp[]>([]);
+
   const handleAddNewTodo = (todo: ITodoProp) => {
-    if (todos) setTodos([...todos, todo]);
-    else setTodos([todo]);
-    setStorage(todo);
+    setTodos([...todos, todo]);
+    addTodosLocalStorage(todos);
+  };
+
+  const localStorageGet = () => {
+    const storage = localStorage.getItem("todos");
+    if (storage) {
+      const result = JSON.parse(storage);
+      if (todos) setTodos(result);
+    }
   };
 
   useEffect(() => {
-    (() => {
-      const response = getStorage();
-      if (response) {
-        setTodos([response]);
-        setIsTodo(false);
-      }
-    })();
+    localStorageGet();
+    addTodosLocalStorage(todos);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(todos);
   return (
-    <TodoContext.Provider value={{ handleAddNewTodo, todos, isTodo }}>
+    <TodoContext.Provider value={{ handleAddNewTodo, todos }}>
       {children}
     </TodoContext.Provider>
   );
 };
+
+/*
+  
+*/
