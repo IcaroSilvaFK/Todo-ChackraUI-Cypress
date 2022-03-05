@@ -1,7 +1,7 @@
 # Todo list com chackraUI
 
-<table>
-<caption>List de versões das depencencias</caption>
+<table style="text-align:center;">
+<caption>Lista de versões das depencencias</caption>
   <thead>
     <tr>
         <th>yarn</th>
